@@ -1,0 +1,34 @@
+# macOS system files
+.DS_Store
+
+# PhpStorm IDE files
+.idea/
+
+# Composer dependencies
+/vendor/
+
+# User-specific PHPStorm files
+*.iml
+*.iws
+
+# Logs and databases
+/log/
+/db/*.sqlite
+
+# Environment configuration
+.env
+
+# Composer lock file
+composer.lock
+
+# Local development server files
+.sass-cache/
+.cache/
+.node_modules/
+
+# User-specific files
+*.sublime-project
+*.sublime-workspace
+
+# configuration
+config.php
