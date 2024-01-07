@@ -1,26 +1,16 @@
 # PHPGenericDB
 
-This project demonstrates a simple PHP implementation for interacting with a MySQL database using the MySQLi extension. The project consists of two main files:
+## Overview
 
-## 1. database.php
+This project includes two files, `database.php` and `database_example.php`, providing a simple yet powerful PHP database interaction mechanism.
 
-The `database.php` file contains a PHP class named `Database`. This class encapsulates common database operations, including:
+### `database.php`
 
-- Establishing a database connection.
-- Creating tables.
-- Executing prepared SQL queries.
-- Fetching results.
-- Closing the database connection.
+This file defines a `Database` class encapsulating basic CRUD operations. The class establishes a connection to a MySQL database using the provided credentials and performs operations such as executing queries, fetching results, and managing connections.
 
-The class is designed for reusability and security, with support for prepared statements.
+Key features:
+- **Generic CRUD Operations:** The class supports Create, Read, Update, and Delete (CRUD) operations, providing a generic and reusable database interaction solution.
 
-## 2. database_example.php
+### `database_example.php`
 
-The `database_example.php` file showcases the usage of the `Database` class by providing examples for common database operations:
-
-- Creating a table.
-- Inserting data.
-- Selecting and fetching data.
-- Updating data.
-- Deleting data.
-- Closing the database connection.
+An example script demonstrating the usage of the `Database` class. This script includes examples of creating a table, inserting data, querying, updating, and deleting records from the database.

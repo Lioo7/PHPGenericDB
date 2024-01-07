@@ -27,59 +27,50 @@ class Database
         }
     }
 
-    
-    public function createExampleTable()
-    {
-        $sql = "CREATE TABLE IF NOT EXISTS example_table (
-            id INT PRIMARY KEY AUTO_INCREMENT,
-            name VARCHAR(255),
-            age INT
-        )";
-        $this->query($sql);
-    }
-
-
-    public function query($sql, $params = [])
+    public function executeQuery($sql, $params = [])
     {
         $stmt = $this->conn->prepare($sql);
-    
+
         if (!$stmt) {
             die("Query preparation failed: " . $this->conn->error);
         }
-    
+
         if (!empty($params)) {
-            $types = "";
-            $values = [];
-    
-            foreach ($params as $param) {
-                $types .= $param['type'];
-                $values[] = $param['value'];
-            }
-    
-            $stmt->bind_param($types, ...$values);
+            $this->bindParams($stmt, $params);
         }
-    
+
         $stmt->execute();
-    
+
         if ($stmt->error) {
             die("Query execution failed: " . $stmt->error);
         }
-    
-        // Check if it's a SELECT query before trying to fetch results
-        if (stripos($sql, 'SELECT') === 0) {
-            $result = $stmt->get_result();
-    
-            if (!$result) {
-                die("Result retrieval failed: " . $stmt->error);
-            }
-    
-            return $result;
-        } else {
-            // Return the number of affected rows for non-SELECT queries
-            return $stmt->affected_rows;
-        }
-    }     
-    
+
+        return $stmt;
+    }
+
+    public function select($sql, $params = [])
+    {
+        $stmt = $this->executeQuery($sql, $params);
+        return $stmt->get_result();
+    }
+
+    public function insert($sql, $params = [])
+    {
+        $stmt = $this->executeQuery($sql, $params);
+        return $this->conn->insert_id;
+    }
+
+    public function update($sql, $params = [])
+    {
+        $stmt = $this->executeQuery($sql, $params);
+        return $stmt->affected_rows;
+    }
+
+    public function delete($sql, $params = [])
+    {
+        $stmt = $this->executeQuery($sql, $params);
+        return $stmt->affected_rows;
+    }
 
     public function fetch($result)
     {
@@ -96,5 +87,19 @@ class Database
     {
         $this->conn->close();
     }
+
+    private function bindParams($stmt, $params)
+    {
+        $types = "";
+        $values = [];
+
+        foreach ($params as $param) {
+            $types .= $param['type'];
+            $values[] = $param['value'];
+        }
+
+        $stmt->bind_param($types, ...$values);
+    }
 }
+
 ?>
